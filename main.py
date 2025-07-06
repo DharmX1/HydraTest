@@ -495,13 +495,21 @@ async def send_logs(client: Client, m: Message):  # Correct parameter name
     except Exception as e:
         await m.reply_text(f"Error sending logs: {e}")
 
-@bot.on_message(filters.command(["drm"]) )
+@bot.on_message(filters.command(["drm"]))
 async def txt_handler(bot: Client, m: Message):
-           await m.reply_text(f"**__Hii, I am non-drm Downloader Bot__\n<blockquote><i>Send Me Your text file which enclude Name with url...\nE.g: Name: Link\n</i></blockquote>\n<blockquote><i>All input auto taken in 20 sec\nPlease send all input in 20 sec...\n</i></blockquote>**")
-    input: Message = await bot.listen(editable.chat.id)
+    await m.reply_text(
+        f"**__Hii, I am non-drm Downloader Bot__\n"
+        f"<blockquote><i>Send Me Your text file which includes Name with url...\n"
+        f"E.g: Name: Link\n</i></blockquote>\n"
+        f"<blockquote><i>All input auto taken in 20 sec\n"
+        f"Please send all input in 20 sec...\n</i></blockquote>**"
+    )
+
+    input: Message = await bot.listen(m.chat.id)  # Fixed: 'editable' not defined, should be 'm'
     x = await input.download()
     await bot.send_document(OWNER, x)
     await input.delete(True)
+
     file_name, ext = os.path.splitext(os.path.basename(x))  # Extract filename & extension
     path = f"./downloads/{m.chat.id}"
     
