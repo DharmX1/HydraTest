@@ -1,1 +1,1 @@
-python3 main.py
+gunicorn python3 main.py
