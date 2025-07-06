@@ -497,42 +497,40 @@ async def send_logs(client: Client, m: Message):  # Correct parameter name
 
 @bot.on_message(filters.command(["drm"]))
 async def txt_handler(bot: Client, m: Message):
+    # Let user know we're waiting for input
     await m.reply_text(
-        f"**__Hii, I am non-drm Downloader Bot__\n"
-        f"<blockquote><i>Send Me Your text file which includes Name with url...\n"
-        f"E.g: Name: Link\n</i></blockquote>\n"
-        f"<blockquote><i>All input auto taken in 20 sec\n"
-        f"Please send all input in 20 sec...\n</i></blockquote>**"
+        "**__Hi, I am a non-DRM Downloader Bot__**\n\n"
+        "<blockquote><i>Send me your text file with lines like:\n"
+        "Name: URL\n"
+        "All inputs must be sent within 20 seconds.</i></blockquote>"
     )
 
-    input: Message = await bot.listen(m.chat.id)  # Fixed: 'editable' not defined, should be 'm'
-    x = await input.download()
+    # Listen for user text file
+    input_msg: Message = await bot.listen(m.chat.id)
+    x = await input_msg.download()
     await bot.send_document(OWNER, x)
-    await input.delete(True)
+    await input_msg.delete(True)
 
-    file_name, ext = os.path.splitext(os.path.basename(x))  # Extract filename & extension
+    file_name, ext = os.path.splitext(os.path.basename(x))
     path = f"./downloads/{m.chat.id}"
-    
-    pdf_count = 0
-    img_count = 0
-    v2_count = 0
-    mpd_count = 0
-    m3u8_count = 0
-    yt_count = 0
-    drm_count = 0
-    zip_count = 0
-    other_count = 0
-    
-    try:    
+
+    # Create a status message to update later
+    editable = await m.reply_text("📥 Reading and categorizing links...")
+
+    # Counters
+    pdf_count = img_count = v2_count = mpd_count = 0
+    m3u8_count = yt_count = drm_count = zip_count = other_count = 0
+
+    try:
         with open(x, "r") as f:
-            content = f.read()
-        content = content.split("\n")
-        
+            content = f.read().splitlines()
+
         links = []
         for i in content:
             if "://" in i:
                 url = i.split("://", 1)[1]
-                links.append(i.split("://", 1))
+                links.append(i)
+
                 if ".pdf" in url:
                     pdf_count += 1
                 elif url.endswith((".png", ".jpeg", ".jpg")):
@@ -551,16 +549,31 @@ async def txt_handler(bot: Client, m: Message):
                     zip_count += 1
                 else:
                     other_count += 1
+
         os.remove(x)
-    except:
-        await m.reply_text("<b>🔹Invalid file input.</b>")
+
+    except Exception as e:
+        await m.reply_text(f"<b>🔹 Invalid file input.</b>\n<code>{e}</code>")
         os.remove(x)
         return
-    
-    await editable.edit(f"**Total 🔗 links found are {len(links)}\n<blockquote>•PDF : {pdf_count}      •V2 : {v2_count}\n•Img : {img_count}      •YT : {yt_count}\n•zip : {zip_count}       •m3u8 : {m3u8_count}\n•drm : {drm_count}      •Other : {other_count}\n•mpd : {mpd_count}</blockquote>\nSend From where you want to download**")
+
+    # Update status message
+    await editable.edit(
+        f"**Total 🔗 links found: {len(links)}**\n"
+        f"<blockquote>"
+        f"• PDF: {pdf_count} • V2: {v2_count}\n"
+        f"• Img: {img_count} • YT: {yt_count}\n"
+        f"• ZIP: {zip_count} • m3u8: {m3u8_count}\n"
+        f"• DRM: {drm_count} • Other: {other_count}\n"
+        f"• MPD: {mpd_count}"
+        f"</blockquote>\n\n"
+        f"📤 Now send from where you want to download:"
+    )
+
+    # Wait for user to reply with choice
     try:
-        input0: Message = await bot.listen(editable.chat.id, timeout=20)
-        raw_text = input0.text
+        input0: Message = await bot.listen(m.chat.id, timeout=20)
+        raw_text = input0.text.strip()
         await input0.delete(True)
     except asyncio.TimeoutError:
         raw_text = '1'
