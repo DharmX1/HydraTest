@@ -50,7 +50,7 @@ bot = Client(
 cookies_file_path = os.getenv("cookies_file_path", "youtube_cookies.txt")
 api_url = "http://master-api-v3.vercel.app/"
 api_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzkxOTMzNDE5NSIsInRnX3VzZXJuYW1lIjoi4p61IFtvZmZsaW5lXSIsImlhdCI6MTczODY5MjA3N30.SXzZ1MZcvMp5sGESj0hBKSghhxJ3k1GTWoBUbivUe1I"
-token_cp ='eyJjb3Vyc2VJZCI6IjQ1NjY4NyIsInR1dG9ySWQiOm51bGwsIm9yZ0lkIjo0ODA2MTksImNhdGVnb3J5SWQiOm51bGx9r'
+token_cp ='eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpZCI6MTU1MjM1NzkwLCJvcmdJZCI6NTY4ODI5LCJ0eXBlIjoxLCJtb2JpbGUiOiI5MTk5MTQ1MTcxMTQiLCJuYW1lIjoiQWFyYXYiLCJlbWFpbCI6ImN5bnRoODUxODlAbGVoLnVuZGVhZGJhbmsuY29tIiwiaXNGaXJzdExvZ2luIjp0cnVlLCJkZWZhdWx0TGFuZ3VhZ2UiOiJFTiIsImNvdW50cnlDb2RlIjoiSU4iLCJpc0ludGVybmF0aW9uYWwiOjAsImlzRGl5Ijp0cnVlLCJsb2dpblZpYSI6Ik90cCIsImZpbmdlcnByaW50SWQiOiIyMmU5YWZjMWFiMmI0ZWM3YTkxNDVmOTg2NWRhZDBiZCIsImlhdCI6MTc1MTQ3NzU3MywiZXhwIjoxNzUyMDgyMzczfQ.pyz2N8rXShugoOOy_x9M4bImTBTmz-PXuLB3f0cJw5hE2ANUfVsWdbAFutasw_dj'
 adda_token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkcGthNTQ3MEBnbWFpbC5jb20iLCJhdWQiOiIxNzg2OTYwNSIsImlhdCI6MTc0NDk0NDQ2NCwiaXNzIjoiYWRkYTI0Ny5jb20iLCJuYW1lIjoiZHBrYSIsImVtYWlsIjoiZHBrYTU0NzBAZ21haWwuY29tIiwicGhvbmUiOiI3MzUyNDA0MTc2IiwidXNlcklkIjoiYWRkYS52MS41NzMyNmRmODVkZDkxZDRiNDkxN2FiZDExN2IwN2ZjOCIsImxvZ2luQXBpVmVyc2lvbiI6MX0.0QOuYFMkCEdVmwMVIPeETa6Kxr70zEslWOIAfC_ylhbku76nDcaBoNVvqN4HivWNwlyT0jkUKjWxZ8AbdorMLg"
 photologo = 'https://tinypic.host/images/2025/02/07/DeWatermark.ai_1738952933236-1.png' #https://envs.sh/GV0.jpg
 photoyt = 'https://tinypic.host/images/2025/03/18/YouTube-Logo.wine.png' #https://envs.sh/GVi.jpg
@@ -526,35 +526,28 @@ async def txt_handler(bot: Client, m: Message):
             content = f.read().splitlines()
 
         links = []
-        for line in content:
-            if ":" not in line:
-               continue
-               
-               parts = line.split(":", 1)
-               if len(parts) != 2:
-                  continue
-               
-               name, url = parts
-               name, url = name.strip( ), url.strip( )
-               links.append([name, url])
+        for i in content:
+            if "://" in i:
+                url = i.split("://", 1)[1]
+                links.append(i)
 
-               if ".pdf" in url:
+                if ".pdf" in url:
                     pdf_count += 1
-               elif url.endswith((".png", ".jpeg", ".jpg")):
+                elif url.endswith((".png", ".jpeg", ".jpg")):
                     img_count += 1
-               elif "v2" in url:
+                elif "v2" in url:
                     v2_count += 1
-               elif "mpd" in url:
+                elif "mpd" in url:
                     mpd_count += 1
-               elif "m3u8" in url:
+                elif "m3u8" in url:
                     m3u8_count += 1
-               elif "drm" in url:
+                elif "drm" in url:
                     drm_count += 1
-               elif "youtu" in url:
+                elif "youtu" in url:
                     yt_count += 1
-               elif "zip" in url:
+                elif "zip" in url:
                     zip_count += 1
-               else:
+                else:
                     other_count += 1
 
         os.remove(x)
@@ -656,7 +649,7 @@ async def txt_handler(bot: Client, m: Message):
 
     if raw_text4 == '/d':
         cwtoken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MjQyMzg3OTEsImNvbiI6eyJpc0FkbWluIjpmYWxzZSwiYXVzZXIiOiJVMFZ6TkdGU2NuQlZjR3h5TkZwV09FYzBURGxOZHowOSIsImlkIjoiZEUxbmNuZFBNblJqVEROVmFWTlFWbXhRTkhoS2R6MDkiLCJmaXJzdF9uYW1lIjoiYVcxV05ITjVSemR6Vm10ak1WUlBSRkF5ZVNzM1VUMDkiLCJlbWFpbCI6Ik5Ga3hNVWhxUXpRNFJ6VlhiR0ppWTJoUk0wMVdNR0pVTlU5clJXSkRWbXRMTTBSU2FHRnhURTFTUlQwPSIsInBob25lIjoiVUhVMFZrOWFTbmQ1ZVcwd1pqUTViRzVSYVc5aGR6MDkiLCJhdmF0YXIiOiJLM1ZzY1M4elMwcDBRbmxrYms4M1JEbHZla05pVVQwOSIsInJlZmVycmFsX2NvZGUiOiJOalZFYzBkM1IyNTBSM3B3VUZWbVRtbHFRVXAwVVQwOSIsImRldmljZV90eXBlIjoiYW5kcm9pZCIsImRldmljZV92ZXJzaW9uIjoiUShBbmRyb2lkIDEwLjApIiwiZGV2aWNlX21vZGVsIjoiU2Ftc3VuZyBTTS1TOTE4QiIsInJlbW90ZV9hZGRyIjoiNTQuMjI2LjI1NS4xNjMsIDU0LjIyNi4yNTUuMTYzIn19.snDdd-PbaoC42OUhn5SJaEGxq0VzfdzO49WTmYgTx8ra_Lz66GySZykpd2SxIZCnrKR6-R10F5sUSrKATv1CDk9ruj_ltCjEkcRq8mAqAytDcEBp72-W0Z7DtGi8LdnY7Vd9Kpaf499P-y3-godolS_7ixClcYOnWxe2nSVD5C9c5HkyisrHTvf6NFAuQC_FD3TzByldbPVKK0ag1UnHRavX8MtttjshnRhv5gJs5DQWj4Ir_dkMcJ4JaVZO3z8j0OxVLjnmuaRBujT-1pavsr1CCzjTbAcBvdjUfvzEhObWfA1-Vl5Y4bUgRHhl1U-0hne4-5fF0aouyu71Y6W0eg'
-        cptoken = "cptoken"
+        cptoken = "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpZCI6MTU1MjM1NzkwLCJvcmdJZCI6NTY4ODI5LCJ0eXBlIjoxLCJtb2JpbGUiOiI5MTk5MTQ1MTcxMTQiLCJuYW1lIjoiQWFyYXYiLCJlbWFpbCI6ImN5bnRoODUxODlAbGVoLnVuZGVhZGJhbmsuY29tIiwiaXNGaXJzdExvZ2luIjp0cnVlLCJkZWZhdWx0TGFuZ3VhZ2UiOiJFTiIsImNvdW50cnlDb2RlIjoiSU4iLCJpc0ludGVybmF0aW9uYWwiOjAsImlzRGl5Ijp0cnVlLCJsb2dpblZpYSI6Ik90cCIsImZpbmdlcnByaW50SWQiOiIyMmU5YWZjMWFiMmI0ZWM3YTkxNDVmOTg2NWRhZDBiZCIsImlhdCI6MTc1MTQ3NzU3MywiZXhwIjoxNzUyMDgyMzczfQ.pyz2N8rXShugoOOy_x9M4bImTBTmz-PXuLB3f0cJw5hE2ANUfVsWdbAFutasw_dj"
         pwtoken = "pwtoken"
     else:
         cwtoken = raw_text4
