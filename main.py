@@ -526,28 +526,35 @@ async def txt_handler(bot: Client, m: Message):
             content = f.read().splitlines()
 
         links = []
-        for i in content:
-            if "://" in i:
-                url = i.split("://", 1)[1]
-                links.append(i)
+        for line in content:
+            if ":" not in line:
+               continue
+               
+               parts = line.split(":", 1)
+               if len(parts) != 2:
+                  continue
+               
+               name, url = parts
+               name, url = name.strip( ), url.strip( )
+               links.append([name, url])
 
-                if ".pdf" in url:
+               if ".pdf" in url:
                     pdf_count += 1
-                elif url.endswith((".png", ".jpeg", ".jpg")):
+               elif url.endswith((".png", ".jpeg", ".jpg")):
                     img_count += 1
-                elif "v2" in url:
+               elif "v2" in url:
                     v2_count += 1
-                elif "mpd" in url:
+               elif "mpd" in url:
                     mpd_count += 1
-                elif "m3u8" in url:
+               elif "m3u8" in url:
                     m3u8_count += 1
-                elif "drm" in url:
+               elif "drm" in url:
                     drm_count += 1
-                elif "youtu" in url:
+               elif "youtu" in url:
                     yt_count += 1
-                elif "zip" in url:
+               elif "zip" in url:
                     zip_count += 1
-                else:
+               else:
                     other_count += 1
 
         os.remove(x)
